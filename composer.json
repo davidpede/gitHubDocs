@@ -1,0 +1,9 @@
+{
+  "config": {
+    "vendor-dir": "core/components/githubdocs/vendors"
+  },
+  "require": {
+    "erusev/parsedown": "^1.7",
+    "guzzlehttp/guzzle": "6.x"
+  }
+}

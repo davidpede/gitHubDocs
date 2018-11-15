@@ -1,0 +1,33 @@
+{
+  "name": "gitHubDocs",
+  "lowCaseName": "githubdocs",
+  "description": "A GitHub Markdown Documentation Extra for MODX Revolution",
+  "author": "David Pede <dev@tasian.media> <https://twitter.com/davepede>",
+  "version": "1.0.0-beta",
+  "package": {
+    "actions": [
+      {
+        "id": 1,
+        "controller": "index"
+      }
+    ],
+    "systemSettings": [
+      {
+        "key": "act_username",
+        "type": "textfield",
+        "area": "GitHub Authentication",
+        "value": ""
+      },{
+        "key": "act_password",
+        "type": "textfield",
+        "area": "GitHub Authentication",
+        "value": ""
+      }
+    ]
+  },
+  "build": {
+    "readme": "docs/readme.txt",
+    "license": "docs/license.txt",
+    "changelog": "docs/changelog.txt"
+  }
+}

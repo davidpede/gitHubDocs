@@ -1,0 +1,5 @@
+Changelog for gitHubDocs.
+
+gitHubDocs 1.0.0-beta (November 15, 2018)
+====================================
+- Initial beta.

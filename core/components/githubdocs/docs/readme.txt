@@ -1,12 +1,13 @@
-# gitHubDocs
+--------------------
+Extra: gitHubDocs
+--------------------
+Version: 1.0.0-beta
+Released: November 15, 2018
+Since: November 15, 2018
+Author: David Pede  <dev@tasian.media> <https://twitter.com/davepede>
+Copyright: (C) 2018 David Pede. All rights reserved.
 
-### A GitHub markdown documentation Extra for MODX Revolution.
-
-#### Installation
-Whilst in beta:
-- Simply download through MODX Package Management and install.
-- Install via 'Git Package Management' Extra: https://github.com/theboxer/Git-Package-Management
-- Fork and clone this repository using your software of choice
+A GitHub markdown documentation Extra for MODX Revolution.
 
 #### Documentation
 - Official Documentation: TBC
