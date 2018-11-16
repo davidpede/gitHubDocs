@@ -35,9 +35,15 @@ class GitHubDocs
         ), $config);
         $this->modx->addPackage('githubdocs', $this->config['modelPath']);
     }
-
+    /**
+     * Returns clean action url
+     *
+     * @var array $params - complete product array
+     *
+     * @return string
+     */
     public function makeMenu(string $base_uri, bool $private_flag = false) {
         //http://docs.guzzlephp.org/en/stable/quickstart.html
-
+        $Parsedown = new Parsedown();
     }
 }
