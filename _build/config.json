@@ -11,6 +11,18 @@
         "controller": "index"
       }
     ],
+    "elements": {
+      "snippets": [
+        {
+          "name": "ghdGetDocs",
+          "file": "snippet.ghd.get.docs.php"
+        },
+        {
+          "name": "ghdGetMenu",
+          "file": "snippet.ghd.get.menu.php"
+        }
+      ]
+    },
     "systemSettings": [
       {
         "key": "act_username",
@@ -25,6 +37,12 @@
       }
     ]
   },
+  "dependencies": [
+    {
+      "name": "customrequest",
+      "version": ">=1.3.1"
+    }
+  ],
   "build": {
     "readme": "docs/readme.txt",
     "license": "docs/license.txt",
