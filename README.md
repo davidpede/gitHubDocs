@@ -1,9 +1,12 @@
-# gitHubDocs
+# gitHubDocs 1.0.0-pl
 
 ### A GitHub markdown documentation Extra for MODX Revolution.
 
+![Version](https://img.shields.io/badge/Version-1.0.0-F78F20.svg)
+![MODX Version](https://img.shields.io/badge/MODX-2.6+-F78F20.svg)
+![MODX Extra by PRP](https://img.shields.io/badge/Developer-Tasian_Media-F78F20.svg)
+
 #### Installation
-Whilst in beta:
 - Simply download through MODX Package Management and install.
 - Install via 'Git Package Management' Extra: https://github.com/theboxer/Git-Package-Management
 - Fork and clone this repository using your software of choice
@@ -13,12 +16,9 @@ Whilst in beta:
 - GitHub Repository: http://github.com/tasianmedia/githubdocs
 - Bugs & Feature Requests: http://github.com/tasianmedia/githubdocs/issues
 
-If you have a bug fix or improvement and would like to submit a Pull Request, please make sure you target the 'develop' branch.
-
 #### Details
 Author: David Pede (dev@tasian.media) (https://twitter.com/davepede)
-
-Copyright: (C) 2018 Tasian Media. All rights reserved. (dev@tasian.media)
+Copyright: (C) 2018 Tasian Media. All rights reserved. (studio@tasian.media)
 
 #### Please Note
 gitHubDocs is not associated with or endorsed by GitHub Inc.
