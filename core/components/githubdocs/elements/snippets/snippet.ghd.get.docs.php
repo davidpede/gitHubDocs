@@ -14,7 +14,8 @@ $ghd = $modx->getService('githubdocs', 'GitHubDocs', $modx->getOption('githubdoc
 if (!($ghd instanceof GitHubDocs)) return $modx->log(MODX::LOG_LEVEL_ERROR, 'Service class not loaded');
 
 //settings
-$repo_url = $modx->getOption('repoUrl', $scriptProperties, '');
+$repo_owner = $modx->getOption('repoOwner', $scriptProperties, '');
+$repo_name = $modx->getOption('repoName', $scriptProperties, '');
 $docs_path = $modx->getOption('docsPath', $scriptProperties, '');
 $private = ($modx->getOption('private', $scriptProperties) === '1') ? true : false;
 $parse = ($modx->getOption('parse', $scriptProperties) !== '0') ? true : false;
@@ -28,7 +29,7 @@ $cache_opts = array(
 $output = '';
 
 try {
-    if ($repo_url && $docs_path) {
+    if ($repo_owner && $repo_name) {
         //build request uri from CustomRequest parameters
         $url_parts = array_intersect_key($_REQUEST, array_flip(preg_grep('/^[p][0-9]{1,2}$/', array_keys($_REQUEST))));
         if (!empty($url_parts)) {
@@ -39,9 +40,9 @@ try {
             $uri = $docs_path;
         }
         //request
-        if (!$response = $modx->cacheManager->get(md5($repo_url . $uri), $cache_opts)) {
-            $response = $ghd->get($repo_url, $uri, $private, $parse);
-            $modx->cacheManager->set(md5($repo_url . $uri), $response, $cache_expires, $cache_opts);
+        if (!$response = $modx->cacheManager->get(md5($repo_name . $uri), $cache_opts)) {
+            $response = $ghd->getContents($repo_owner, $repo_name, $uri, $private, $parse);
+            $modx->cacheManager->set(md5($repo_name . $uri), $response, $cache_expires, $cache_opts);
         }
         //output
         if ($debug) {
@@ -50,7 +51,7 @@ try {
             $modx->setPlaceholders($response, 'ghd.');
         }
     } else {
-        throw new Exception('Snippet [[ghdGetDocs]] requires &repoUrl and &docsPath parameters.');
+        throw new Exception('Snippet [[ghdGetDocs]] requires &repoOwner and &repoName parameters.');
     }
 } catch (\GuzzleHttp\Exception\GuzzleException | Exception $e) {
     $ghd->exceptionHandler($e);

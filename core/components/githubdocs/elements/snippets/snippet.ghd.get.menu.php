@@ -14,7 +14,8 @@ $ghd = $modx->getService('githubdocs', 'GitHubDocs', $modx->getOption('githubdoc
 if (!($ghd instanceof GitHubDocs)) return $modx->log(MODX::LOG_LEVEL_ERROR, 'Service class not loaded');
 
 //settings
-$repo_url = $modx->getOption('repoUrl', $scriptProperties, '');
+$repo_owner = $modx->getOption('repoOwner', $scriptProperties, '');
+$repo_name = $modx->getOption('repoName', $scriptProperties, '');
 $docs_path = $modx->getOption('docsPath', $scriptProperties, '');
 $private = ($modx->getOption('private', $scriptProperties) === '1') ? true : false;
 $debug = ($modx->getOption('debug', $scriptProperties) === '1') ? true : false;
@@ -24,23 +25,24 @@ $dir_tpl = $modx->getOption('dirTpl', $scriptProperties, '');
 //cache
 $cache_expires = $modx->getOption('cacheExpires', $scriptProperties, 86400); //TODO move to sys settings
 $cache_opts = array(
-    xPDO::OPT_CACHE_KEY => ($cache_key = $modx->getOption('cacheKey', $scriptProperties)) ? 'gitHubDocs/' . $cache_key : 'gitHubDocs' //TODO move to sys settings
+    xPDO::OPT_CACHE_KEY => ($cache_key = $modx->getOption('cacheKey', $scriptProperties)) ? 'gitHubDocs/' . $cache_key : 'gitHubDocs'
 );
 
 $output = '';
 
 try {
-    if ($repo_url && $docs_path) {
+    if ($repo_owner && $repo_name) {
         //request
-        if (!$tree = $modx->cacheManager->get(md5($repo_url) . '_tree', $cache_opts)) {
-            $tree = $ghd->getDirTree($repo_url, $docs_path, $private);
-            $modx->cacheManager->set(md5($repo_url) . '_tree', $tree, $cache_expires, $cache_opts);
+        if (!$tree = $modx->cacheManager->get(md5($repo_name . $docs_path) . '_tree', $cache_opts)) {
+            $dir = $ghd->getDirectory($repo_owner, $repo_name,'docs', $private);
+            $tree = $ghd->getTree($repo_owner, $repo_name, $dir['sha'],$private);
+            $modx->cacheManager->set(md5($repo_name . $docs_path) . '_tree', $tree, $cache_expires, $cache_opts);
         }
         //menu templating
         if ($dir_tpl && $file_tpl) {
             //links
-            $base_url = $modx->makeUrl($modx->resource->get('id'));
-            $menu = $ghd->styleDirTree($tree, $base_url, $dir_tpl, $file_tpl, $debug);
+            $base_url = $modx->makeUrl($modx->resource->get('id')) . $docs_path . '/';
+            $menu = $ghd->templateTree($tree, $base_url, $dir_tpl, $file_tpl, $debug, $_REQUEST);
             //output
             if ($debug) {
                 $output = '<pre>' . print_r($menu, true) . '</pre>';
@@ -51,7 +53,7 @@ try {
             throw new Exception('Snippet [[ghdGetMenu]] requires &dirTpl and &fileTpl parameters.');
         }
     } else {
-        throw new Exception('Snippet [[ghdGetMenu]] requires &repoUrl and &docsPath parameters.');
+        throw new Exception('Snippet [[ghdGetMenu]] requires &repoOwner and &repoName parameters.');
     }
 } catch (\GuzzleHttp\Exception\GuzzleException | Exception $e) {
     $ghd->exceptionHandler($e);
