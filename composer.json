@@ -3,7 +3,10 @@
     "vendor-dir": "core/components/githubdocs/vendors"
   },
   "require": {
-    "erusev/parsedown": "^1.7",
-    "guzzlehttp/guzzle": "6.x"
-  }
+    "erusev/parsedown": "^1.8",
+    "erusev/parsedown-extra": "^0.8",
+    "guzzlehttp/guzzle": "^6.3"
+  },
+  "minimum-stability": "beta",
+  "prefer-stable": true
 }
