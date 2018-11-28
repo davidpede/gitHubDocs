@@ -1,8 +1,8 @@
 --------------------
 Extra: gitHubDocs
 --------------------
-Version: 1.0.0-pl
-Released: November 27, 2018
+Version: 1.1.0-pl
+Released: November 28, 2018
 Since: November 15, 2018
 
 A GitHub markdown documentation Extra for MODX Revolution.

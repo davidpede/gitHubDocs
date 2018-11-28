@@ -1,10 +1,11 @@
-# gitHubDocs 1.0.0-pl
+# gitHubDocs 1.1.0-pl
 
 ### A GitHub markdown documentation Extra for MODX Revolution.
 
-![Version](https://img.shields.io/badge/Version-1.0.0-F78F20.svg)
+![Version](https://img.shields.io/badge/Version-1.1.0-F78F20.svg)
 ![MODX Version](https://img.shields.io/badge/MODX-2.6+-F78F20.svg)
-![MODX Extra by PRP](https://img.shields.io/badge/Developer-Tasian_Media-F78F20.svg)
+![PHP](https://img.shields.io/badge/PHP-7.0+-F78F20.svg)
+[![MODX Extra by Tasian Media](https://img.shields.io/badge/Developer-Tasian_Media-F78F20.svg)](https://tasian.media)
 
 #### Installation
 - Simply download through MODX Package Management and install.

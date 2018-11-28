@@ -3,7 +3,7 @@
   "lowCaseName": "githubdocs",
   "description": "A GitHub Markdown Documentation Extra for MODX Revolution",
   "author": "David Pede <dev@tasian.media>",
-  "version": "1.0.0-pl",
+  "version": "1.1.0-pl",
   "package": {
     "actions": [
       {

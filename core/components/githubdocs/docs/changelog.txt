@@ -1,5 +1,13 @@
 Changelog for gitHubDocs.
 
+gitHubDocs 1.1.0-pl (November 28, 2018)
+====================================
+- Add support for internal links
+- Add support for anchor links
+- Add custom directory and file 'here' css class names
+- Add support for Markdown Extra syntax (https://michelf.ca/projects/php-markdown/extra/).
+- Add parsedown-extra to dependencies.
+
 gitHubDocs 1.0.0-pl (November 27, 2018)
 ====================================
 - Initial release.
