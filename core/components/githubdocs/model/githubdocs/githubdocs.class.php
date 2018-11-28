@@ -38,8 +38,6 @@ class GitHubDocs
             'connectorUrl' => $assetsUrl . 'connector.php'
         ), $config);
         $this->modx->addPackage('githubdocs', $this->config['modelPath']);
-        //dependencies
-        $this->parse = new Parsedown();
     }
 
     /**
@@ -217,7 +215,8 @@ class GitHubDocs
     public function parseMarkDown(string $md = null)
     {
         try {
-            $html = $this->parse->text(base64_decode($md));
+            $parse = new ParsedownExtra();
+            $html = $parse->text(base64_decode($md));
             return $html;
         } catch (Exception $e) {
             throw $e;
