@@ -9,10 +9,6 @@
  * @var array $scriptProperties
  */
 
-/** @var GitHubDocs|null $ghd */
-$ghd = $modx->getService('githubdocs', 'GitHubDocs', $modx->getOption('githubdocs.core_path', null, MODX_CORE_PATH . 'components/githubdocs/') . 'model/githubdocs/', $scriptProperties);
-if (!($ghd instanceof GitHubDocs)) return $modx->log(MODX::LOG_LEVEL_ERROR, 'Service class not loaded');
-
 //settings
 $repo_owner = $modx->getOption('repoOwner', $scriptProperties, '');
 $repo_name = $modx->getOption('repoName', $scriptProperties, '');
@@ -20,11 +16,19 @@ $docs_path = $modx->getOption('docsPath', $scriptProperties, '');
 $private = ($modx->getOption('private', $scriptProperties) === '1') ? true : false;
 $parse = ($modx->getOption('parse', $scriptProperties) !== '0') ? true : false;
 $debug = ($modx->getOption('debug', $scriptProperties) === '1') ? true : false;
+//templating
+$scriptProperties = array_merge(array(
+    'base_url' => $modx->makeUrl($modx->resource->get('id')) . rtrim($docs_path,'/') . '/',
+), $scriptProperties);
 //cache
 $cache_expires = $modx->getOption('cacheExpires', $scriptProperties, 86400); //TODO move to sys settings
 $cache_opts = array(
     xPDO::OPT_CACHE_KEY => ($cache_key = $modx->getOption('cacheKey', $scriptProperties)) ? 'gitHubDocs/' . $cache_key : 'gitHubDocs' //TODO move to sys settings
 );
+
+/** @var GitHubDocs|null $ghd */
+$ghd = $modx->getService('githubdocs', 'GitHubDocs', $modx->getOption('githubdocs.core_path', null, MODX_CORE_PATH . 'components/githubdocs/') . 'model/githubdocs/', $scriptProperties);
+if (!($ghd instanceof GitHubDocs)) return $modx->log(MODX::LOG_LEVEL_ERROR, 'Service class not loaded');
 
 $output = '';
 
