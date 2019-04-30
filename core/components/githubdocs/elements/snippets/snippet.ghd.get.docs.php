@@ -13,6 +13,7 @@
 $repo_owner = $modx->getOption('repoOwner', $scriptProperties, '');
 $repo_name = $modx->getOption('repoName', $scriptProperties, '');
 $docs_path = $modx->getOption('docsPath', $scriptProperties, '');
+$start_path = $modx->getOption('startPath', $scriptProperties, null);
 $private = ($modx->getOption('private', $scriptProperties) === '1') ? true : false;
 $parse = ($modx->getOption('parse', $scriptProperties) !== '0') ? true : false;
 $debug = ($modx->getOption('debug', $scriptProperties) === '1') ? true : false;
@@ -40,6 +41,8 @@ try {
             $request_parts = pathinfo($_REQUEST['q']);
             $path = implode('/', $url_parts);
             $uri = isset($request_parts['extension']) ? $path . '.md' : $path; //TODO add logic for dir index file
+        } elseif ($start_path) {
+            $modx->sendRedirect($modx->makeUrl($modx->resource->get('id')) . $ghd->cleanUrl($start_path));
         } else {
             $uri = $docs_path;
         }
