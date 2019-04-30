@@ -13,7 +13,7 @@ class GitHubDocs
 {
     /** @var modX $modx */
     public $modx;
-    /** @var Parsedown $parse */
+    /** @var ParsedownExtra $parse */
     protected $parse;
 
     public $config = array();
@@ -48,11 +48,12 @@ class GitHubDocs
      * @param string $uri - Relative path to target docs folder
      * @param bool $private - Private repo flag
      * @param bool $parse - Return parsed markdown flag
+     * @param bool $toc - Return parsed table of content flag
      *
      * @return array
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function getContents(string $repo_owner, string $repo_name, string $uri, bool $private = false, bool $parse = true)
+    public function getContents(string $repo_owner, string $repo_name, string $uri, bool $private = false, bool $parse = true, bool $toc = true)
     {
         $params = array();
         if ($private) {
@@ -67,6 +68,12 @@ class GitHubDocs
             $body = json_decode($response->getBody(), true);
             if (isset($body['content']) && $parse) {
                 $body['content'] = $this->parseMarkDown($body['content']);
+                if ($toc) {
+                    $markupFixer = new TOC\MarkupFixer();
+                    $toc = new TOC\TocGenerator();
+                    $body['content'] = $markupFixer->fix($body['content']);
+                    $body['toc'] = $this->cleanLinks($toc->getHtmlMenu($body['content'],2,5));
+                }
             }
             return $body;
         } catch (GuzzleHttp\Exception\GuzzleException | Exception $e) {
@@ -114,7 +121,7 @@ class GitHubDocs
                 // Save the name of node
                 $name = array_pop($path_parts);
                 $v['name'] = $name;
-                foreach($path_parts as $part) {
+                foreach ($path_parts as $part) {
                     // Make level upto the last ($part same as $name)
                     $p[$part]['children'] = array();
                     $p = &$p[$part]['children'];
@@ -122,7 +129,7 @@ class GitHubDocs
                 // Add node to array ($part same as $name)
                 $p[$name] = $v;
                 // Merge node array into output
-                $output = array_merge_recursive($output,$temp);
+                $output = array_merge_recursive($output, $temp);
             }
             return $output;
         } catch (GuzzleHttp\Exception\GuzzleException | Exception $e) {
@@ -220,7 +227,7 @@ class GitHubDocs
     {
         try {
             $parse = new ParsedownExtra();
-            $html = $this->cleanHtml($parse->text(base64_decode($md)));
+            $html = $this->cleanLinks($parse->text(base64_decode($md)));
             return $html;
         } catch (Exception $e) {
             throw $e;
@@ -245,13 +252,13 @@ class GitHubDocs
     }
 
     /**
- * Returns a clean title.
- *
- * @param string $title - url or path to clean
- *
- * @return string
- * @throws Exception
- */
+     * Returns a clean title.
+     *
+     * @param string $title - url or path to clean
+     *
+     * @return string
+     * @throws Exception
+     */
     public function cleanTitle(string $title)
     {
         try {
@@ -277,7 +284,7 @@ class GitHubDocs
      * @return string
      * @throws Exception
      */
-    public function cleanHtml(string $html)
+    public function cleanLinks(string $html)
     {
         try {
             $base_url = $this->config['base_url'] ?? '/';
